@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app" class="face-box">
+      <label v-for="i in faceNumber">
+        <input type="checkbox" :checked="checkeds[i-1]" />
+        <div class="face"></div>
+      </label>
+    </div>
+    <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.js"></script>
+    <script>
+      const App = {
+        data() {
+          return {
+            checkeds: [0],
+            faceNumber: 1,
+            faceSize: 150,
+            maxWidth: 1920,
+            maxHeight: 1080,
+          };
+        },
+        created() {
+          this.maxWidth = window.innerWidth;
+          this.maxHeight = window.innerHeight;
+          const num = this.getFaceNumber();
+          this.checkeds = new Array(num).fill(0);
+          this.faceNumber = num;
+          this.randomLight();
+        },
+        methods: {
+          getFaceNumber() {
+            const x = Math.floor(this.maxWidth / 150);
+            const y = Math.floor(this.maxHeight / 150);
+            return Math.ceil(x * y);
+          },
+          randomLight() {
+            this.checkeds.forEach((v, i) => {
+              this.checkeds[i] = Math.random() > 0.3 ? 1 : 0;
+            });
+          },
+        },
+      };
+      Vue.createApp(App).mount("#app");
+    </script>
+  </body>
+</html>
